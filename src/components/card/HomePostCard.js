@@ -4,8 +4,7 @@ import GlovalSprite from '../Common/GlovalSprite';
 import basicImg from '../../assets/profile/basic-profile.svg';
 import dommyImg from '../../assets/dommy/post-img-example.png';
 
-const FeedContainer = styled.div`
-  /* width: 358px; */
+const Container = styled.div`
   display: flex;
   margin: 0 auto;
   padding: 16px;
@@ -15,13 +14,15 @@ const FeedImgProfile = styled.div`
   width: 168px;
   height: 168px;
 `;
-const FeedUserProfile = styled.div`
-  /* padding: 4px 0 0 12px; */
-`;
 const FeedNickName = styled.div`
   font-size: 12px;
   color: #767676;
 `;
+const UsetName = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+`
+
 const UserFeedText = styled.div`
   margin-top: 16px;
   margin-bottom: 16px;
@@ -42,9 +43,6 @@ const FeedDate = styled.div`
   margin-top: 18px;
   color: #767676;
 `;
-const Comment = styled.div``;
-const Favorite = styled.div``;
-
 const Count = styled.span`
   vertical-align: 7px;
   margin-left: 8px;
@@ -53,12 +51,12 @@ const Count = styled.span`
 
 export default function FeedCard() {
   return (
-    <FeedContainer>
+    <Container>
       <FeedImgProfile>
         <UserProfileImg src={basicImg}/>
       </FeedImgProfile>
-      <FeedUserProfile>
-        <div>애월읍 위니브 감귤농장</div>
+      <div>
+        <UsetName>애월읍 위니브 감귤농장</UsetName>
         <FeedNickName>@ weniv_Mandarin</FeedNickName>
         <UserFeedText>
           옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
@@ -67,17 +65,17 @@ export default function FeedCard() {
         </UserFeedText>
         <UserFeedImg src={dommyImg} />
         <FavoritAndComment>
-          <Favorite>
+          <div>
             <GlovalSprite id='icon-heart' color='white' />
             <Count>58</Count>
-          </Favorite>
-          <Comment>
+          </div>
+          <div>
             <GlovalSprite id='icon-message-circle' color='white' />
             <Count>12</Count>
-          </Comment>
+          </div>
         </FavoritAndComment>
         <FeedDate>2023년 06월 03일</FeedDate>
-      </FeedUserProfile>
-    </FeedContainer>
+      </div>
+    </Container>
   );
 }

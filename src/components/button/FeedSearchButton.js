@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   padding: 13px;
+  /* margin-left: 7px; */
 `;
 
-export default function BackButton() {
+export default function FeedSearchButton() {
   return (
     <Container>
-      <GlovalSprite id={'icon-arrow-left'} color={'white'}/>
+      <GlovalSprite id='icon-search' color='white' size='24'/>
     </Container>
-  );
+  )
 }

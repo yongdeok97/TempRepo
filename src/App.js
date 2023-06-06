@@ -1,18 +1,19 @@
 import React from 'react';
 
-
+import HomePostPage from './pages/PostPage/HomePostPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import FeedPage from './pages/FeedPage/FeedPage';
 
 
+import MapDrawingManager from './components/map/MapDrawingManager';
+import GetMapsAndLocation from './components/map/GetMapsAndLocation';
 
 
-import GetMapsAndLocation from './utils/maps/GetMapsAndLocation';
-
+import TestAllButton from './components/button/TestAllButton';
+import TestAllHeader from './components/header/TestAllHeader';
 export default function App() {
   return (
     <>
-      <ProfilePage />
+      <GetMapsAndLocation />
     </>
   );
 }

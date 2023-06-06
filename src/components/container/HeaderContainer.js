@@ -9,6 +9,10 @@ const Container = styled.div`
   border: 0.5px solid #dbdbdb;
   height: 48px;
   background-color: white;
+
+  > button {
+    margin: 8px;
+  }
 `
 
 export default function HeaderContainer({ children }) {

@@ -3,9 +3,10 @@ import BottomBarButton from '../button/BottomBarButton';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  position: sticky;
+  position: absolute;
   bottom: 0;
   display: flex;
+  width: 100%;
   justify-content: space-around;
   border-top: 1px solid #DBDBDB;
   margin-top: 28px;
@@ -13,7 +14,7 @@ const Container = styled.div`
 
 `
 
-export default function BottomBar() {
+export default function TabMenu() {
   return (
     <Container>
       <BottomBarButton id={'icon-home'} text={'홈'} />

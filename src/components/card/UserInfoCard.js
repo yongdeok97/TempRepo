@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import basicProfile from '../../assets/profile/basic-profile-img-.svg';
-import GlovalSprite from '../Common/GlovalSprite';
-import FollowButton from '../button/FollowButton';
+import MFollowButton from '../button/MFollowButton';
+import ShareButton from '../button/ShareButton';
+import MessageButtton from '../button/MessageButton';
 
-const UserInfoContainer = styled.div`
+const Container = styled.div`
   text-align: center;
-  border-bottom: 6px solid #C4C4C4;
+  border-bottom: 6px solid #c4c4c4;
 `;
 
 const InfoHeader = styled.div`
@@ -14,11 +15,7 @@ const InfoHeader = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: 14px;
-  /* width: 110px; */
   padding: 16px;
-`;
-const Follower = styled.div``;
-const Followings = styled.div`
 `;
 const UserProfile = styled.div`
   text-align: center;
@@ -32,7 +29,7 @@ const BoldBlurText = styled.div`
   font-weight: bold;
   color: #767676;
   font-size: 18px;
-`
+`;
 
 const UsetNcikName = styled.div`
   color: #767676;
@@ -50,34 +47,26 @@ const UserInteraction = styled.div`
   gap: 10px;
   margin-bottom: 26px;
 `;
-const Button = styled.div`
-  border: 1px solid #DBDBDB;
-  padding: 8px 9px;
-  /* width: 34px;
-  height: 34px; */
-  border-radius: 50%;
-`;
 
 const FollowText = styled.div`
   font-size: 10px;
   color: #767676;
   margin-top: 6px;
-`
-// const FollowButton = styled.div``;
+`;
 
 export default function UserInfoCard() {
   return (
-    <UserInfoContainer>
+    <Container>
       <InfoHeader>
-        <Follower>
+        <div>
           <BoldText>2950</BoldText>
           <FollowText>follwers</FollowText>
-        </Follower>
+        </div>
         <img src={basicProfile} />
-        <Followings>
+        <div>
           <BoldBlurText>2000</BoldBlurText>
           <FollowText>following</FollowText>
-        </Followings>
+        </div>
       </InfoHeader>
       <UserProfile>
         <BoldText>애월읍 위니브 감귤농장</BoldText>
@@ -87,14 +76,10 @@ export default function UserInfoCard() {
         </UserIntoroduce>
       </UserProfile>
       <UserInteraction>
-        <Button>
-          <GlovalSprite id='icon-message-circle' color='white' size='15'/>
-        </Button>
-        <FollowButton />
-        <Button>
-          <GlovalSprite id='icon-share' color='white' size='15'/>
-        </Button>
+        <MessageButtton />
+        <MFollowButton />
+        <ShareButton />
       </UserInteraction>
-    </UserInfoContainer>
+    </Container>
   );
 }

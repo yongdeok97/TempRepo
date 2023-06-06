@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import FeedCard from '../../components/card/FeedCard';
+import HomePostCard from '../../components/card/HomePostCard';
 import UserInfoCard from '../../components/card/UserInfoCard';
-import BottomBar from '../../components/Common/BottomBar';
-import SquareOrRectangleList from '../../components/Common/SquareOrRectangleList';
+import TabMenu from '../../components/Common/TabMenu';
+import AlbumOrList from '../../components/Common/AlbumOrList';
 import AlbumCard from '../../components/card/AlbumCard';
-import BackAndSettingHeader from '../../components/header/BackAndSettingHeader';
+import TopBasicNavHeader from '../../components/header/TopBasicNavHeader'
+
 
 export default function ProfilePage() {
-  const [showAlbum, setShowAlbum] = useState(true); // 기본적으로 AlbumCard를 보여주도록 설정
+  const [showAlbum, setShowAlbum] = useState(false); // 기본적으로 AlbumCard를 보여주도록 설정
 
   const handleButtonClick = (isAlbum) => {
     setShowAlbum(isAlbum);
   };
   return (
     <>
-      <BackAndSettingHeader />
+      <TopBasicNavHeader />
       <UserInfoCard />
-      <SquareOrRectangleList
+      <AlbumOrList
         onButtonClick={handleButtonClick}
         value={showAlbum}
       />
-      {showAlbum ? <AlbumCard /> : <FeedCard />}
-      <BottomBar />
+      {showAlbum ? <AlbumCard /> : <HomePostCard />}
+      <TabMenu />
     </>
   );
 }

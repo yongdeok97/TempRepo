@@ -1,76 +1,164 @@
-// import React from 'react'
-// import { Map, MapMarker, DrawingManager } from 'react-kakao-maps-sdk';
-// export default function MapDrawingManager() {
-//   return (
-//     <DrawingManager
-//           ref={managerRef}
-//           onStateChanged={handleStateChanged}
-//           drawingMode={[
-//             kakao.maps.drawing.OverlayType.ARROW,
-//             kakao.maps.drawing.OverlayType.CIRCLE,
-//             kakao.maps.drawing.OverlayType.ELLIPSE,
-//             kakao.maps.drawing.OverlayType.MARKER,
-//             kakao.maps.drawing.OverlayType.POLYLINE,
-//             kakao.maps.drawing.OverlayType.RECTANGLE,
-//             kakao.maps.drawing.OverlayType.POLYGON,
-//           ]}
-//           guideTooltip={["draw", "drag", "edit"]}
-//           markerOptions={{
-//             // 마커 옵션입니다
-//             draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
-//             removable: true, // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
-//           }}
-//           polylineOptions={{
-//             // 선 옵션입니다
-//             draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
-//             removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
-//             editable: true, // 그린 후 수정할 수 있도록 설정합니다
-//             strokeColor: "#39f", // 선 색
-//             hintStrokeStyle: "dash", // 그리중 마우스를 따라다니는 보조선의 선 스타일
-//             hintStrokeOpacity: 0.5, // 그리중 마우스를 따라다니는 보조선의 투명도
-//           }}
-//           rectangleOptions={{
-//             draggable: true,
-//             removable: true,
-//             editable: true,
-//             strokeColor: "#39f", // 외곽선 색
-//             fillColor: "#39f", // 채우기 색
-//             fillOpacity: 0.5, // 채우기색 투명도
-//           }}
-//           circleOptions={{
-//             draggable: true,
-//             removable: true,
-//             editable: true,
-//             strokeColor: "#39f",
-//             fillColor: "#39f",
-//             fillOpacity: 0.5,
-//           }}
-//           polygonOptions={{
-//             draggable: true,
-//             removable: true,
-//             editable: true,
-//             strokeColor: "#39f",
-//             fillColor: "#39f",
-//             fillOpacity: 0.5,
-//             hintStrokeStyle: "dash",
-//             hintStrokeOpacity: 0.5,
-//           }}
-//           arrowOptions={{
-//             draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
-//             removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
-//             editable: true, // 그린 후 수정할 수 있도록 설정합니다
-//             strokeColor: "#39f", // 선 색
-//             hintStrokeStyle: "dash", // 그리중 마우스를 따라다니는 보조선의 선 스타일
-//             hintStrokeOpacity: 0.5, // 그리중 마우스를 따라다니는 보조선의 투명도
-//           }}
-//           ellipseOptions={{
-//             draggable: true,
-//             removable: true,
-//             editable: true,
-//             strokeColor: "#39f",
-//             fillColor: "#39f",
-//             fillOpacity: 0.5,
-//           }}
-//         />
-//   )
-// }
+import React, { useEffect, useRef, useState } from 'react';
+import { Map, CustomOverlayMap, Polyline } from 'react-kakao-maps-sdk';
+
+export default function MapDrawingManager() {
+  const [isdrawing, setIsdrawing] = useState(false)
+  const [clickLine, setClickLine] = useState()
+  const [paths, setPaths] = useState([])
+  const [distances, setDistances] = useState([])
+  const [mousePosition, setMousePosition] = useState({
+    lat: 0,
+    lng: 0,
+  })
+  const [moveLine, setMoveLine] = useState()
+
+  const handleClick = (
+    _map,
+    mouseEvent
+  ) => {
+    if (!isdrawing) {
+      setDistances([])
+      setPaths([])
+    }
+    console.log(paths)
+    setPaths((prev) => [
+      ...prev,
+      {
+        lat: mouseEvent.latLng.getLat(),
+        lng: mouseEvent.latLng.getLng(),
+      },
+    ])
+    setDistances((prev) => [
+      ...prev,
+      Math.round(clickLine.getLength() + moveLine.getLength()),
+    ])
+    setIsdrawing(true)
+  }
+
+  const handleMouseMove = (
+    _map,
+    mouseEvent
+  ) => {
+    setMousePosition({
+      lat: mouseEvent.latLng.getLat(),
+      lng: mouseEvent.latLng.getLng(),
+    })
+  }
+
+  const handleRightClick = (
+    _map,
+    _mouseEvent
+  ) => {
+    setIsdrawing(false)
+  }
+
+  const DistanceInfo = ({ distance }) => {
+    const walkkTime = (distance / 67) | 0
+    const bycicleTime = (distance / 227) | 0
+
+    return (
+      <ul className="dotOverlay distanceInfo">
+        <li>
+          <span className="label">총거리</span>{" "}
+          <span className="number">{distance}</span>m
+        </li>
+        <li>
+          <span className="label">도보</span>{" "}
+          {walkkTime > 60 && (
+            <>
+              <span className="number">{Math.floor(walkkTime / 60)}</span> 시간{" "}
+            </>
+          )}
+          <span className="number">{walkkTime % 60}</span> 분
+        </li>
+        <li>
+          <span className="label">자전거</span>{" "}
+          {bycicleTime > 60 && (
+            <>
+              <span className="number">{Math.floor(bycicleTime / 60)}</span>{" "}
+              시간{" "}
+            </>
+          )}
+          <span className="number">{bycicleTime % 60}</span> 분
+        </li>
+      </ul>
+    )
+  }
+
+  return (
+    <>
+      {/* <CalculatePolylineDistanceStyle /> */}
+      <Map // 지도를 표시할 Container
+        id={`map`}
+        center={{
+          // 지도의 중심좌표
+          lat: 37.498004414546934,
+          lng: 127.02770621963765,
+        }}
+        style={{
+          // 지도의 크기
+          width: "100%",
+          height: "450px",
+        }}
+        level={3} // 지도의 확대 레벨
+        onClick={handleClick}
+        onRightClick={handleRightClick}
+        onMouseMove={handleMouseMove}
+      >
+        <Polyline
+          path={paths}
+          strokeWeight={3} // 선의 두께입니다
+          strokeColor={"#db4040"} // 선의 색깔입니다
+          strokeOpacity={1} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+          strokeStyle={"solid"} // 선의 스타일입니다
+          onCreate={setClickLine}
+        />
+        {paths.map((path) => (
+          <CustomOverlayMap
+            key={`dot-${path.lat},${path.lng}`}
+            position={path}
+            zIndex={1}
+          >
+            <span className="dot"></span>
+          </CustomOverlayMap>
+        ))}
+        {paths.length > 1 &&
+          distances.slice(1, distances.length).map((distance, index) => (
+            <CustomOverlayMap
+              key={`distance-${paths[index + 1].lat},${paths[index + 1].lng}`}
+              position={paths[index + 1]}
+              yAnchor={1}
+              zIndex={2}
+            >
+              {!isdrawing && distances.length === index + 2 ? (
+                <DistanceInfo distance={distance} />
+              ) : (
+                <div className="dotOverlay">
+                  거리 <span className="number">{distance}</span>m
+                </div>
+              )}
+            </CustomOverlayMap>
+          ))}
+        <Polyline
+          path={isdrawing ? [paths[paths.length - 1], mousePosition] : []}
+          strokeWeight={3} // 선의 두께입니다
+          strokeColor={"#db4040"} // 선의 색깔입니다
+          strokeOpacity={0.5} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+          strokeStyle={"solid"} // 선의 스타일입니다
+          onCreate={setMoveLine}
+        />
+        {isdrawing && (
+          <CustomOverlayMap position={mousePosition} yAnchor={1} zIndex={2}>
+            <div className="dotOverlay distanceInfo">
+              총거리{" "}
+              <span className="number">
+                {Math.round(clickLine.getLength() + moveLine.getLength())}
+              </span>
+              m
+            </div>
+          </CustomOverlayMap>
+        )}
+      </Map>
+    </>
+  )
+}

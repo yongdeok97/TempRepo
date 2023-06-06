@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import MapCard from '../../components/card/MapCard';
+import MapCard from '../card/MapCard';
 
-const GetMapsAndLocation = () => {
+const GetLocation = () => {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
@@ -24,9 +24,7 @@ const GetMapsAndLocation = () => {
     });
   };
 
-  return (
-    <MapCard location={location}></MapCard>
-  );
+  return location;
 };
 
-export default GetMapsAndLocation;
+export default GetLocation;

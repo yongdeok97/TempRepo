@@ -1,14 +1,14 @@
 import React from 'react';
 import HeaderContainer from '../container/HeaderContainer';
 import BackButton from '../button/BackButton';
-import SettingButton from '../button/SettingButton';
+import StorageButton from '../button/StorageButton';
 
 
-export default function BackAndSettingHeader() {
+export default function TopUploadHeader() {
   return (
     <HeaderContainer>
       <BackButton />
-      <SettingButton />
+      <StorageButton />
     </HeaderContainer>
   );
 }
