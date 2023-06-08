@@ -17,7 +17,7 @@ export default function TestAllHeader() {
       <TopUploadHeader></TopUploadHeader>
       <TopChatNavHeader></TopChatNavHeader>
 
-      <p>마진 탑 있음</p>
+      <p>마진 탑 있음. 따라다니게 하고 싶으면 fixed로 수정</p>
       <TabMenu></TabMenu>
     </>
   )

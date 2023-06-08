@@ -3,10 +3,10 @@ import BottomBarButton from '../button/BottomBarButton';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  position: absolute;
+  position: sticky;
   bottom: 0;
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   justify-content: space-around;
   border-top: 1px solid #DBDBDB;
   margin-top: 28px;
